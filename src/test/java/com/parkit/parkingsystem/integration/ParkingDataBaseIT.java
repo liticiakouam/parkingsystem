@@ -69,7 +69,6 @@ public class ParkingDataBaseIT {
 
 		// TODO: check that a ticket is actualy saved in DB and Parking table is updated
 		// with availability
-
 	}
 
 	@Test
@@ -80,8 +79,7 @@ public class ParkingDataBaseIT {
 		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 		parkingService.processExitingVehicle();
 
-		// TODO: check that Out time are populated correctly in
-		// the database
+		// TODO: check that Out time are populated correctly in the database
 		Ticket ticket = ticketDAO.getTicket("ABCDEF");
 		assertNotNull(ticket.getOutTime());
 
