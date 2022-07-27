@@ -18,9 +18,8 @@ public class TicketDAO {
 
 	private static final Logger logger = LogManager.getLogger("TicketDAO");
 
-	public DataBaseConfig dataBaseConfig = new DataBaseConfig();
+	public static DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
-	@SuppressWarnings("finally")
 	public boolean saveTicket(Ticket ticket) {
 		Connection con = null;
 		try {
@@ -42,7 +41,6 @@ public class TicketDAO {
 		}
 	}
 
-	@SuppressWarnings("finally")
 	public Ticket getTicket(String vehicleRegNumber) {
 		Connection con = null;
 		Ticket ticket = null;
@@ -88,5 +86,28 @@ public class TicketDAO {
 			dataBaseConfig.closeConnection(con);
 		}
 		return false;
+	}
+
+	public boolean isRecurrentUser(String vehicleRegNumber) {
+		Connection con = null;
+		boolean isRecurrentUser = false;
+		try {
+			con = dataBaseConfig.getConnection();
+			PreparedStatement ps = con.prepareStatement(DBConstants.COUNT_TICKETS);
+			// ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
+			ps.setString(1, vehicleRegNumber);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				int count = rs.getInt(1);
+				isRecurrentUser = count > 0;
+			}
+			dataBaseConfig.closeResultSet(rs);
+			dataBaseConfig.closePreparedStatement(ps);
+		} catch (Exception ex) {
+			logger.error("Error fetching next available slot", ex);
+		} finally {
+			dataBaseConfig.closeConnection(con);
+			return isRecurrentUser;
+		}
 	}
 }

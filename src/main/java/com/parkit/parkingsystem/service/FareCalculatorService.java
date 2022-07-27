@@ -6,7 +6,7 @@ import com.parkit.parkingsystem.model.Ticket;
 public class FareCalculatorService {
 
 	@SuppressWarnings("deprecation")
-	public void calculateFare(Ticket ticket) {
+	public void calculateFare(Ticket ticket, boolean isReccurentUser) {
 		if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
 			throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 		}
@@ -17,6 +17,12 @@ public class FareCalculatorService {
 		if (duration < 0.5) {
 			duration = 0;
 		}
+
+		if (isReccurentUser) {
+			// TODO : APPLY 5% discount
+
+		}
+
 		// TODO: Some tests are failing here. Need to check if this logic is correct
 		switch (ticket.getParkingSpot().getParkingType()) {
 		case CAR: {

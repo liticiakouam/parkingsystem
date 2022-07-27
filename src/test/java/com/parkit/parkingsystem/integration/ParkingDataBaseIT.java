@@ -80,12 +80,28 @@ public class ParkingDataBaseIT {
 		parkingService.processExitingVehicle();
 
 		// TODO: check that Out time are populated correctly in the database
+		// ParkingService parking = new ParkingService( ParkingSpotDAO parkingSpotDAO,
+		// TicketDAO ticketDAO);
 		Ticket ticket = ticketDAO.getTicket("ABCDEF");
 		assertNotNull(ticket.getOutTime());
 
 		// TODO: check that the fare generated in the database
 		assertNotEquals(0, ticket.getPrice());
+	}
 
+	@Test
+	public void testParkingFivePercent() throws SQLException, ClassNotFoundException, InterruptedException {
+		testParkingACar();
+		Thread.sleep(2000L);
+
+		ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+		parkingService.processIncomingVehicle();
+
+		// TODO: check that Out time are populated correctly in the database
+		Ticket ticket = ticketDAO.getTicket("ABCDEF");
+
+		assertEquals("ABCDEF", ticket.getVehicleRegNumber());
+		// TODO: check that the fare generated in the database
 	}
 
 }
