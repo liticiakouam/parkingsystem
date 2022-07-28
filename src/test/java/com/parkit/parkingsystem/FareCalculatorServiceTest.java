@@ -190,4 +190,64 @@ public class FareCalculatorServiceTest {
 		fareCalculatorService.calculateFare(ticket, false);
 		assertNotEquals(0, ticket.getPrice());
 	}
+
+	@Test
+	public void calculateFareCarWithLessThanTwentyFiveParkingTimeForFivePercent() {
+		Date inTime = new Date();
+		inTime.setTime(System.currentTimeMillis() - (10 * 60 * 1000));// 10 minutes for a car
+
+		Date outTime = new Date();
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+
+		ticket.setInTime(inTime);
+		ticket.setOutTime(outTime);
+		ticket.setParkingSpot(parkingSpot);
+		fareCalculatorService.calculateFare(ticket, true);
+		assertEquals(0, ticket.getPrice());
+	}
+
+	@Test
+	public void calculateFareCarWithLessThanTwentyNineParkingTimeForFivePercent() {
+		Date inTime = new Date();
+		inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));// 29 minutes for a car
+
+		Date outTime = new Date();
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+
+		ticket.setInTime(inTime);
+		ticket.setOutTime(outTime);
+		ticket.setParkingSpot(parkingSpot);
+		fareCalculatorService.calculateFare(ticket, true);
+		assertNotEquals(0, ticket.getPrice());
+	}
+
+	@Test
+	public void calculateFareBikeWithLessThanTwentyFiveParkingTimeForFivePercent() {
+		Date inTime = new Date();
+		inTime.setTime(System.currentTimeMillis() - (10 * 60 * 1000));// 10 minutes for a car
+
+		Date outTime = new Date();
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+
+		ticket.setInTime(inTime);
+		ticket.setOutTime(outTime);
+		ticket.setParkingSpot(parkingSpot);
+		fareCalculatorService.calculateFare(ticket, true);
+		assertEquals(0, ticket.getPrice());
+	}
+
+	@Test
+	public void calculateBikeCarWithLessThanTwentyNineParkingTimeForFivePercent() {
+		Date inTime = new Date();
+		inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));// 29 minutes for a car
+
+		Date outTime = new Date();
+		ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+
+		ticket.setInTime(inTime);
+		ticket.setOutTime(outTime);
+		ticket.setParkingSpot(parkingSpot);
+		fareCalculatorService.calculateFare(ticket, true);
+		assertNotEquals(0, ticket.getPrice());
+	}
 }

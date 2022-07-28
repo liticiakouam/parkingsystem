@@ -18,11 +18,6 @@ public class FareCalculatorService {
 			duration = 0;
 		}
 
-		if (isReccurentUser) {
-			// TODO : APPLY 5% discount
-
-		}
-
 		// TODO: Some tests are failing here. Need to check if this logic is correct
 		switch (ticket.getParkingSpot().getParkingType()) {
 		case CAR: {
@@ -36,5 +31,12 @@ public class FareCalculatorService {
 		default:
 			throw new IllegalArgumentException("Unkown Parking Type");
 		}
+
+		if (isReccurentUser) {
+			// TODO : APPLY 5% discount
+			double price = ticket.getPrice() - ticket.getPrice() * 0.05;
+			ticket.setPrice(price);
+		}
+
 	}
 }
